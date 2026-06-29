@@ -1212,18 +1212,26 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
   document.addEventListener('click', function(e) {
     var btn = e.target.closest('#btnComprar');
     if (!btn) return;
-    var hasColor = document.querySelector('.color-swatch.sel');
-    var hasSize  = document.querySelector('.size-btn.sel');
-    if (hasColor && hasSize) return;
-    e.preventDefault();
+    var colorEl = document.querySelector('.color-swatch.sel');
+    var sizeEl  = document.querySelector('.size-btn.sel');
     function doShake(el) {
       el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake');
       el.addEventListener('animationend', function(){ el.classList.remove('shake'); }, {once:true});
     }
-    if (!hasColor) doShake(document.getElementById('colorGrid'));
-    if (!hasSize)  doShake(document.querySelector('.size-grid'));
-    var first = !hasColor ? document.getElementById('colorGrid') : document.querySelector('.size-grid');
-    first.scrollIntoView({behavior:'smooth', block:'center'});
+    if (!colorEl || !sizeEl) {
+      e.preventDefault();
+      if (!colorEl) doShake(document.getElementById('colorGrid'));
+      if (!sizeEl)  doShake(document.querySelector('.size-grid'));
+      var first = !colorEl ? document.getElementById('colorGrid') : document.querySelector('.size-grid');
+      first.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+    // Envia cor + tamanho para a Stripe via client_reference_id
+    var cor = colorEl.getAttribute('data-label') || '';
+    var tam = sizeEl.textContent.trim();
+    var ref = encodeURIComponent('Cor:' + cor + '|Tam:' + tam);
+    var base = btn.href.split('?')[0];
+    btn.href = base + '?client_reference_id=' + ref;
   });
 
   (function() {
