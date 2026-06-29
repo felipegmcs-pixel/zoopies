@@ -431,7 +431,38 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
 }
 .pay-badge svg{width:13px;height:13px;}
 
-/* ===== RESPONSIVE ===== */
+
+  /* ===== POLICY MODALS ===== */
+  .modal-overlay{position:fixed;inset:0;background:rgba(42,32,23,0.72);z-index:10000;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+    opacity:0;pointer-events:none;transition:opacity .25s ease;}
+  .modal-overlay.open{opacity:1;pointer-events:all;}
+  .modal-box{background:var(--paper);border-radius:20px;max-width:660px;width:100%;
+    max-height:82vh;overflow-y:auto;padding:40px 44px;position:relative;
+    box-shadow:0 24px 60px rgba(42,32,23,0.28);}
+  .modal-close{position:absolute;top:16px;right:16px;width:34px;height:34px;
+    border-radius:50%;background:var(--cream-3);border:none;cursor:pointer;
+    font-size:18px;line-height:1;color:var(--brown);display:flex;align-items:center;justify-content:center;}
+  .modal-close:hover{background:var(--cream);}
+  .modal-content h2{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;
+    font-size:22px;color:var(--brown);margin-bottom:6px;}
+  .modal-content .modal-updated{font-size:11.5px;color:var(--brown-3);font-weight:600;
+    margin-bottom:24px;display:block;}
+  .modal-content h3{font-weight:800;font-size:14px;color:var(--brown);
+    margin:20px 0 6px;text-transform:uppercase;letter-spacing:.04em;}
+  .modal-content p{font-size:13.5px;color:var(--brown-2);font-weight:500;
+    line-height:1.7;margin-bottom:10px;}
+  .modal-content ul{margin:6px 0 10px 18px;}
+  .modal-content ul li{font-size:13.5px;color:var(--brown-2);font-weight:500;
+    line-height:1.7;margin-bottom:4px;}
+  .modal-content strong{color:var(--brown);font-weight:700;}
+  .modal-divider{height:1px;background:var(--line);margin:20px 0;}
+  @media(max-width:560px){
+    .modal-box{padding:28px 20px;}
+    .modal-content h2{font-size:19px;}
+  }
+
+  /* ===== RESPONSIVE ===== */
 @media(max-width:880px){
   .product-grid,.story-grid{grid-template-columns:1fr;gap:24px;}
   .product-info{position:static;}
@@ -983,8 +1014,9 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
         <div class="footer-links">
           <a href="https://instagram.com/usezoopies" target="_blank">📸 @usezoopies</a>
           <a href="mailto:contato@zoopies.com.br">contato@zoopies.com.br</a>
-          <a href="#">Política de Privacidade</a>
-          <a href="#">Política de Devolução</a>
+          <a href="#" onclick="openModal('modalPrivacidade');return false">Política de Privacidade</a>
+          <a href="#" onclick="openModal('modalDevolucao');return false">Política de Devolução</a>
+          <a href="#" onclick="openModal('modalTermos');return false">Termos de Uso</a>
         </div>
       </div>
     </div>
@@ -999,12 +1031,131 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
   </div>
 </footer>
 
+<!-- Política de Privacidade -->
+<div class="modal-overlay" id="modalPrivacidade" role="dialog" aria-modal="true" aria-label="Política de Privacidade" onclick="if(event.target===this)closeModal('modalPrivacidade')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalPrivacidade')" aria-label="Fechar">✕</button>
+    <div class="modal-content">
+      <h2>Política de Privacidade</h2>
+      <span class="modal-updated">Última atualização: 29 de junho de 2026</span>
+      <h3>1. Quem somos</h3>
+      <p><strong>Zoopies™ Cat Crocs</strong>, CNPJ 66.444.069/0001-97, é a responsável pelo tratamento dos seus dados pessoais neste site, nos termos da Lei 13.709/2018 (LGPD).</p>
+      <div class="modal-divider"></div>
+      <h3>2. Dados que coletamos</h3>
+      <ul>
+        <li><strong>Dados de navegação:</strong> endereço IP, tipo de navegador e páginas visitadas — coletados via Google Analytics 4 somente com seu consentimento.</li>
+        <li><strong>Dados de compra:</strong> nome, e-mail e endereço de entrega, processados diretamente pela Stripe. Não armazenamos dados de cartão.</li>
+        <li><strong>Armazenamento local:</strong> preferência de cookies (LGPD) e variante de preço do teste A/B, salvos no seu navegador.</li>
+      </ul>
+      <div class="modal-divider"></div>
+      <h3>3. Finalidade do tratamento</h3>
+      <ul>
+        <li>Processar e entregar o seu pedido</li>
+        <li>Enviar atualizações sobre o status da entrega</li>
+        <li>Analisar o tráfego do site de forma anônima para melhorias</li>
+      </ul>
+      <div class="modal-divider"></div>
+      <h3>4. Base legal (LGPD — art. 7º)</h3>
+      <p>Consentimento (inciso I), execução de contrato (inciso V) e legítimo interesse (inciso IX).</p>
+      <div class="modal-divider"></div>
+      <h3>5. Compartilhamento</h3>
+      <p>Compartilhamos dados exclusivamente com <strong>Stripe Inc.</strong> (pagamentos) e <strong>Google LLC</strong> (analytics anônimo). Não vendemos dados a terceiros.</p>
+      <div class="modal-divider"></div>
+      <h3>6. Seus direitos</h3>
+      <p>Conforme a LGPD, você pode a qualquer momento acessar, corrigir, excluir ou solicitar a portabilidade dos seus dados. Basta entrar em contato pelo e-mail <strong>contato@zoopies.com.br</strong>.</p>
+      <div class="modal-divider"></div>
+      <h3>7. Segurança</h3>
+      <p>O site utiliza HTTPS com certificado SSL. Os dados de pagamento são protegidos pela infraestrutura PCI-DSS da Stripe.</p>
+      <div class="modal-divider"></div>
+      <h3>8. Contato</h3>
+      <p>E-mail: <strong>contato@zoopies.com.br</strong><br>Instagram: <strong>@usezoopies</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- Política de Devolução -->
+<div class="modal-overlay" id="modalDevolucao" role="dialog" aria-modal="true" aria-label="Política de Devolução" onclick="if(event.target===this)closeModal('modalDevolucao')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalDevolucao')" aria-label="Fechar">✕</button>
+    <div class="modal-content">
+      <h2>Política de Devolução e Troca</h2>
+      <span class="modal-updated">Última atualização: 29 de junho de 2026</span>
+      <h3>Prazo</h3>
+      <p>Você tem <strong>30 dias corridos</strong> a partir da data de recebimento do produto para solicitar troca ou devolução, conforme o art. 49 do Código de Defesa do Consumidor (Lei 8.078/1990).</p>
+      <div class="modal-divider"></div>
+      <h3>Condições</h3>
+      <ul>
+        <li>Produto sem sinais de uso</li>
+        <li>Embalagem original (se disponível)</li>
+        <li>Comprovante de compra (e-mail de confirmação da Stripe)</li>
+      </ul>
+      <div class="modal-divider"></div>
+      <h3>Como solicitar</h3>
+      <p>Entre em contato pelo Instagram <strong>@usezoopies</strong> ou pelo e-mail <strong>contato@zoopies.com.br</strong> informando:</p>
+      <ul>
+        <li>Número do pedido</li>
+        <li>Motivo da devolução ou troca</li>
+        <li>Foto do produto (em caso de defeito)</li>
+      </ul>
+      <div class="modal-divider"></div>
+      <h3>Frete de retorno</h3>
+      <ul>
+        <li><strong>Defeito de fabricação:</strong> frete de retorno por nossa conta.</li>
+        <li><strong>Troca de tamanho ou preferência:</strong> frete de retorno por conta do cliente.</li>
+      </ul>
+      <div class="modal-divider"></div>
+      <h3>Reembolso</h3>
+      <p>O reembolso é processado em até <strong>10 dias úteis</strong> após o recebimento do produto devolvido, pelo mesmo método de pagamento utilizado na compra (cartão ou débito).</p>
+      <div class="modal-divider"></div>
+      <h3>Contato</h3>
+      <p>Instagram: <strong>@usezoopies</strong><br>E-mail: <strong>contato@zoopies.com.br</strong><br>WhatsApp: <strong>(14) 99846-4459</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- Termos de Uso -->
+<div class="modal-overlay" id="modalTermos" role="dialog" aria-modal="true" aria-label="Termos de Uso" onclick="if(event.target===this)closeModal('modalTermos')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalTermos')" aria-label="Fechar">✕</button>
+    <div class="modal-content">
+      <h2>Termos de Uso</h2>
+      <span class="modal-updated">Última atualização: 29 de junho de 2026</span>
+      <h3>1. Aceitação</h3>
+      <p>Ao acessar e utilizar este site, você declara que leu e concorda com os presentes Termos de Uso.</p>
+      <div class="modal-divider"></div>
+      <h3>2. Sobre o produto</h3>
+      <p>O <strong>Zoopies™ Cat Crocs</strong> é um calçado estilo clog com sola em formato de patinha de gato, importado e comercializado pela Zoopies™ (CNPJ 66.444.069/0001-97).</p>
+      <div class="modal-divider"></div>
+      <h3>3. Preços e pagamento</h3>
+      <p>Os preços são exibidos em reais (BRL) e incluem os impostos aplicáveis. O pagamento é processado pela <strong>Stripe Inc.</strong>, plataforma certificada PCI-DSS nível 1. Aceitamos cartão de crédito (em até 3× sem juros) e débito.</p>
+      <div class="modal-divider"></div>
+      <h3>4. Entrega</h3>
+      <p>Os prazos de entrega são estimativas e podem variar conforme a região e a transportadora. Não nos responsabilizamos por atrasos causados por fatores externos como greves, desastres naturais ou falhas dos Correios.</p>
+      <div class="modal-divider"></div>
+      <h3>5. Propriedade intelectual</h3>
+      <p>A marca Zoopies™, o logotipo e todo o conteúdo visual deste site são de propriedade exclusiva da empresa e não podem ser reproduzidos, distribuídos ou utilizados comercialmente sem autorização prévia por escrito.</p>
+      <div class="modal-divider"></div>
+      <h3>6. Limitação de responsabilidade</h3>
+      <p>O produto é destinado ao uso como calçado casual. Não nos responsabilizamos por danos decorrentes de uso inadequado ou além do previsto.</p>
+      <div class="modal-divider"></div>
+      <h3>7. Foro</h3>
+      <p>Fica eleito o foro da Comarca de Bauru, Estado de São Paulo, para dirimir quaisquer controvérsias decorrentes destes Termos, com renúncia a qualquer outro, por mais privilegiado que seja.</p>
+      <div class="modal-divider"></div>
+      <h3>8. Legislação aplicável</h3>
+      <p>Estes Termos são regidos pela legislação brasileira, em especial o Código de Defesa do Consumidor (Lei 8.078/1990) e a Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>
+      <div class="modal-divider"></div>
+      <h3>Contato</h3>
+      <p>E-mail: <strong>contato@zoopies.com.br</strong><br>Instagram: <strong>@usezoopies</strong></p>
+    </div>
+  </div>
+</div>
+
 <!-- LGPD Cookie Banner -->
 <div class="cookie-banner hidden" id="cookieBanner" role="dialog" aria-label="Aviso de cookies" aria-live="polite">
   <p class="cookie-text">
     Usamos cookies para melhorar sua experiência e analisar o tráfego do site, conforme a
     <strong>LGPD (Lei 13.709/2018)</strong>. Ao continuar, você concorda com nossa
-    <a href="#" onclick="return false">Política de Privacidade</a>.
+    <a href="#" onclick="openModal('modalPrivacidade');return false">Política de Privacidade</a>.
   </p>
   <div class="cookie-btns">
     <button class="btn-cookie-decline" onclick="cookieDecline()">Recusar</button>
@@ -1216,6 +1367,23 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
     if (firstSwatch) setTimeout(()=>firstSwatch.click(), 50);
   })();
 
+
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(function(m) {
+        m.classList.remove('open');
+      });
+      document.body.style.overflow = '';
+    }
+  });
   function toggleSizeChart(btn) {
     var chart = document.getElementById('sizeChart');
     var hidden = chart.hasAttribute('hidden');
