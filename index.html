@@ -102,7 +102,7 @@ header.site{
   border-radius:22px;overflow:hidden;border:1px solid var(--cream-3);
   background:var(--cream);aspect-ratio:1/1;position:relative;
 }
-.gallery-main img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.gallery-main img{width:100%;height:100%;object-fit:cover;transition:opacity .28s ease,transform .5s ease;}
 .gallery-main:hover img{transform:scale(1.04);}
 .g-badge{
   position:absolute;top:16px;left:16px;
@@ -966,10 +966,15 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
   setInterval(updateCountdown, 1000);
 
   function switchImg(thumb, src, alt) {
-    document.getElementById('mainImg').src = src;
-    document.getElementById('mainImg').alt = alt;
+    const img = document.getElementById('mainImg');
+    img.style.opacity = '0';
+    setTimeout(function(){
+      img.src = src;
+      if(alt) img.alt = alt;
+      img.style.opacity = '1';
+    }, 260);
     document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-    thumb.classList.add('active');
+    if(thumb) thumb.classList.add('active');
   }
   function selectSize(btn, size) {
     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('sel'));
@@ -1064,11 +1069,8 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
         // Troca a foto principal e sincroniza o thumb ativo
         const imgSrc = COLOR_IMAGES[c.id];
         if (imgSrc) {
-          document.getElementById('mainImg').src = imgSrc;
-          document.getElementById('mainImg').alt = 'Zoopies ' + c.label;
-          document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
           const matchThumb = document.querySelector(`.thumb[data-color="${c.id}"]`);
-          if (matchThumb) matchThumb.classList.add('active');
+          switchImg(matchThumb, imgSrc, 'Zoopies ' + c.label);
         }
       };
       wrap.appendChild(sw);
