@@ -75,10 +75,7 @@ header.site{
   padding:8px 24px;gap:14px;
 }
 .logo-wrap{display:flex;align-items:center;gap:10px;}
-.logo-text-stack{display:flex;flex-direction:column;align-items:center;gap:0;line-height:1;}
-.logo-paw-icon{font-size:18px;line-height:1;margin-bottom:2px;filter:drop-shadow(0 1px 2px rgba(94,74,50,0.18));}
-.logo-wordmark{font-family:'Plus Jakarta Sans';font-weight:900;font-size:22px;color:var(--brown);letter-spacing:0.12em;line-height:1;}
-.tm-mark{font-size:10px;font-weight:700;vertical-align:super;letter-spacing:0;}
+.logo-svg{display:block;height:46px;width:auto;}
 .nav-right{display:flex;align-items:center;gap:10px;}
 .nav-trust{
   display:flex;align-items:center;gap:6px;
@@ -630,10 +627,30 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
 <header class="site">
   <div class="nav">
     <a class="logo-wrap" href="/">
-      <div class="logo-text-stack">
-        <span class="logo-paw-icon">🐾</span>
-        <span class="logo-wordmark">ZOOPIES<sup class="tm-mark">™</sup></span>
-      </div>
+      <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 142 56" role="img" aria-label="Zoopies Cat Crocs">
+        <!-- Paw print -->
+        <g fill="#5E4A32">
+          <ellipse cx="71" cy="13" rx="7" ry="6"/>
+          <ellipse cx="59" cy="7.5" rx="4" ry="3.5"/>
+          <ellipse cx="66" cy="4" rx="4.5" ry="3.5"/>
+          <ellipse cx="76" cy="4" rx="4.5" ry="3.5"/>
+          <ellipse cx="83" cy="7.5" rx="4" ry="3.5"/>
+        </g>
+        <!-- Text ZOOPIES -->
+        <text font-family="'Plus Jakarta Sans',sans-serif" font-weight="900" font-size="26" fill="#5E4A32">
+          <tspan x="4" y="48">Z</tspan>
+          <tspan x="23" y="48">O</tspan>
+          <tspan x="44" y="48">O</tspan>
+          <tspan x="65" y="48">PIES</tspan>
+          <tspan x="134" y="40" font-size="11">™</tspan>
+        </text>
+        <!-- Cat ears on O1 -->
+        <polygon points="25,29 31,29 28,20" fill="#5E4A32"/>
+        <polygon points="34,29 40,29 37,20" fill="#5E4A32"/>
+        <!-- Cat ears on O2 -->
+        <polygon points="46,29 52,29 49,20" fill="#5E4A32"/>
+        <polygon points="55,29 61,29 58,20" fill="#5E4A32"/>
+      </svg>
     </a>
     <div class="nav-right">
       <div class="nav-trust">
