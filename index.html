@@ -94,7 +94,7 @@ header.site{
 .btn-cta:hover{background:var(--ink);transform:translateY(-1px);}
 
 /* ===== PRODUCT SECTION ===== */
-.product-section{padding:40px 0 10px;}
+.product-section{padding:24px 0 10px;}
 .product-grid{display:grid;grid-template-columns:1.02fr 0.98fr;gap:48px;align-items:start;}
 
 .gallery{display:flex;flex-direction:column;gap:10px;}
@@ -177,8 +177,24 @@ header.site{
   display:flex;align-items:center;justify-content:center;gap:9px;
   box-shadow:0 8px 22px rgba(94,74,50,0.32);
   transition:background .2s,transform .2s,box-shadow .2s;
+  position:relative;
 }
 .btn-buy:hover{background:var(--ink);transform:translateY(-2px);box-shadow:0 12px 30px rgba(94,74,50,0.4);}
+@keyframes pulseBuy{0%{box-shadow:0 0 0 0 rgba(94,74,50,.38);}70%{box-shadow:0 0 0 12px rgba(94,74,50,0);}100%{box-shadow:0 0 0 0 rgba(94,74,50,0);}}
+.btn-buy::after{content:'';position:absolute;inset:0;border-radius:14px;animation:pulseBuy 2.4s ease-out infinite;pointer-events:none;}
+.btn-buy:hover::after{animation:none;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-5px);}40%,80%{transform:translateX(5px);}}
+.shake{animation:shake .38s ease;}
+.viewers-now{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--brown-3);font-weight:600;}
+.viewers-dot{width:7px;height:7px;border-radius:50%;background:#E84040;flex-shrink:0;animation:dotPulse 1.5s ease-in-out infinite;}
+@keyframes dotPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+.size-table-btn{font-size:12px;color:var(--brown);font-weight:700;text-decoration:underline;background:none;border:none;cursor:pointer;padding:0;}
+.size-chart{margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid var(--cream-3);}
+.size-chart-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.size-chart-table th{background:var(--brown);color:var(--cream);padding:7px 12px;text-align:left;font-weight:700;font-size:11.5px;}
+.size-chart-table td{padding:7px 12px;color:var(--brown-2);font-weight:500;}
+.size-chart-table tr:nth-child(even) td{background:var(--cream);}
+.size-chart-tip{font-size:11.5px;color:var(--brown-3);padding:8px 12px;background:var(--cream);border-top:1px solid var(--cream-3);}
 #stripeContainer{display:flex;flex-direction:column;}
 .stripe-placeholder{
   background:var(--cream);border:1.5px dashed var(--cream-3);
@@ -644,6 +660,11 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
           Restam poucas unidades do lote de lançamento
         </div>
 
+        <div class="viewers-now">
+          <span class="viewers-dot"></span>
+          <span><strong id="viewersNow">12</strong> pessoas estão vendo agora</span>
+        </div>
+
         <!-- COLOR SELECTOR -->
         <div>
           <div class="picker-label">Cor — <span id="selectedColor" style="color:var(--brown-3);font-weight:600">selecione</span></div>
@@ -660,7 +681,20 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
             <button class="size-btn" onclick="selectSize(this,'39/40')">39/40</button>
             <button class="size-btn" onclick="selectSize(this,'41/42')">41/42</button>
           </div>
-          <p class="size-hint">Não tem certeza do tamanho? Veja a tabela de medidas acima.</p>
+          <p class="size-hint">Não tem certeza do tamanho? <button class="size-table-btn" onclick="toggleSizeChart(this)">Ver tabela de medidas ↓</button></p>
+          <div class="size-chart" id="sizeChart" hidden>
+            <table class="size-chart-table">
+              <thead><tr><th>Nº BR</th><th>Comprimento do pé</th><th>EU</th></tr></thead>
+              <tbody>
+                <tr><td><strong>33/34</strong></td><td>21 – 22 cm</td><td>33–34</td></tr>
+                <tr><td><strong>35/36</strong></td><td>22,5 – 23,5 cm</td><td>35–36</td></tr>
+                <tr><td><strong>37/38</strong></td><td>24 – 25 cm</td><td>37–38</td></tr>
+                <tr><td><strong>39/40</strong></td><td>25,5 – 26,5 cm</td><td>39–40</td></tr>
+                <tr><td><strong>41/42</strong></td><td>27 – 28 cm</td><td>41–42</td></tr>
+              </tbody>
+            </table>
+            <p class="size-chart-tip">Em dúvida entre dois tamanhos? Escolha o maior.</p>
+          </div>
         </div>
 
         <div class="buy-wrap" id="comprar">
@@ -947,7 +981,7 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
           <div class="footer-brand-name">Zoopies™</div>
         </div>
         <div class="footer-tagline">Cat Crocs · Deixe Pegadas de Gatinho</div>
-        <p class="footer-desc">Projeto de lançamento — esta página é um MVP para validar o produto antes de escalar.</p>
+        <p class="footer-desc">O croc mais fofo do Brasil. Deixe pegadinha de gatinho onde você pisar.</p>
       </div>
       <div>
         <div class="footer-col-title">Links</div>
@@ -1171,6 +1205,56 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
   (function initDefaultColor(){
     const firstSwatch = document.querySelector('.color-swatch');
     if (firstSwatch) setTimeout(()=>firstSwatch.click(), 50);
+  })();
+
+  function toggleSizeChart(btn) {
+    var chart = document.getElementById('sizeChart');
+    var hidden = chart.hasAttribute('hidden');
+    if (hidden) { chart.removeAttribute('hidden'); btn.textContent = 'Fechar tabela de medidas ↑'; }
+    else { chart.setAttribute('hidden',''); btn.textContent = 'Ver tabela de medidas ↓'; }
+  }
+
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('#btnComprar');
+    if (!btn) return;
+    var hasColor = document.querySelector('.color-swatch.sel');
+    var hasSize  = document.querySelector('.size-btn.sel');
+    if (hasColor && hasSize) return;
+    e.preventDefault();
+    function doShake(el) {
+      el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake');
+      el.addEventListener('animationend', function(){ el.classList.remove('shake'); }, {once:true});
+    }
+    if (!hasColor) doShake(document.getElementById('colorGrid'));
+    if (!hasSize)  doShake(document.querySelector('.size-grid'));
+    var first = !hasColor ? document.getElementById('colorGrid') : document.querySelector('.size-grid');
+    first.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  (function() {
+    var el = document.getElementById('viewersNow');
+    if (!el) return;
+    var n = Math.floor(Math.random() * 13) + 9;
+    el.textContent = n;
+    setInterval(function() {
+      n = Math.max(7, Math.min(29, n + (Math.random() > 0.5 ? 1 : -1)));
+      el.textContent = n;
+    }, 85000);
+  })();
+
+  (function() {
+    var gallery = document.querySelector('.gallery-main');
+    if (!gallery) return;
+    var sx = 0;
+    gallery.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, {passive:true});
+    gallery.addEventListener('touchend', function(e){
+      var diff = e.changedTouches[0].clientX - sx;
+      if (Math.abs(diff) < 40) return;
+      var thumbs = Array.from(document.querySelectorAll('.thumb'));
+      var idx = thumbs.findIndex(function(t){ return t.classList.contains('active'); });
+      var next = diff < 0 ? Math.min(idx+1, thumbs.length-1) : Math.max(idx-1, 0);
+      if (next !== idx) thumbs[next].click();
+    }, {passive:true});
   })();
 </script>
 
