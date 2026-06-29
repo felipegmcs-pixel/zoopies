@@ -1189,11 +1189,12 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
     localStorage.setItem('zoopies_cookie', 'declined');
     document.getElementById('cookieBanner').classList.add('hidden');
   }
-  (function() {
-    if (localStorage.getItem('zoopies_cookie')) {
-      document.getElementById('cookieBanner').classList.add('hidden');
+  document.addEventListener('DOMContentLoaded', function() {
+    var banner = document.getElementById('cookieBanner');
+    if (!localStorage.getItem('zoopies_cookie')) {
+      setTimeout(function() { banner.classList.remove('hidden'); }, 800);
     }
-  })();
+  });
 
 
   // Seleciona cor padrão (Preto) ao carregar
@@ -1262,7 +1263,7 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
 </script>
 
 <!-- LGPD Cookie Banner -->
-<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Aviso de cookies" aria-live="polite">
+<div class="cookie-banner hidden" id="cookieBanner" role="dialog" aria-label="Aviso de cookies" aria-live="polite">
   <p class="cookie-text">
     Usamos cookies para melhorar sua experiência e analisar o tráfego do site, conforme a
     <strong>LGPD (Lei 13.709/2018)</strong>. Ao continuar, você concorda com nossa
