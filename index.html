@@ -417,7 +417,10 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:880px){
-  .product-grid,.story-grid{grid-template-columns:1fr;gap:30px;}
+  .product-grid,.story-grid{grid-template-columns:1fr;gap:24px;}
+  .product-info{position:static;}
+  .product-section{padding:16px 0 10px;}
+  .gallery-main{aspect-ratio:4/3;}
   .story-img{order:-1;}
   .story-img img{transform:none;}
   .feat-grid,.how-grid{grid-template-columns:1fr 1fr;}
@@ -431,9 +434,31 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
   .trust-row{gap:20px;}
   .nav-trust{display:none;}
   .compare-table{font-size:12.5px;}
-  .price-sale{font-size:28px;}
+  .price-sale{font-size:30px;}
   .announce-bar{font-size:12px;padding:9px 14px;}
   .guarantee-card{padding:28px 20px;}
+  /* Wrap padding menor em telas pequenas */
+  .wrap{padding:0 16px;}
+  /* Imagem menor para deixar mais conteudo acima do fold */
+  .gallery-main{aspect-ratio:3/2;}
+  .thumb{width:70px;height:70px;}
+  /* Touch targets minimos (44px) em botoes de tamanho */
+  .size-btn{padding:11px 14px;min-height:44px;font-size:14px;}
+  /* Swatches maiores para toque */
+  .color-swatch{width:44px;height:44px;}
+  /* Spacing do painel de produto */
+  .product-info{gap:14px;}
+  /* Header mais compacto */
+  .logo-img{width:36px;height:36px;}
+  .brand-name{font-size:16px;}
+  /* Garantia menor para nao empurrar preco */
+  .guarantee-seal{width:52px;height:52px;}
+  /* Barra de compra sticky mais generosa no mobile */
+  .buy-bar{padding:14px 16px;}
+  .bb-price{font-size:18px;}
+  .btn-bar{padding:12px 18px;font-size:13px;}
+  /* Espaco no final da pagina para barra sticky nao cobrir conteudo */
+  footer{padding-bottom:80px;}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;}
