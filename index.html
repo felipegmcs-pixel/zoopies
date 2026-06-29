@@ -181,6 +181,7 @@ header.site{
 }
 .btn-buy:hover{background:var(--ink);transform:translateY(-2px);box-shadow:0 12px 30px rgba(94,74,50,0.4);}
 @keyframes pulseBuy{0%{box-shadow:0 0 0 0 rgba(94,74,50,.38);}70%{box-shadow:0 0 0 12px rgba(94,74,50,0);}100%{box-shadow:0 0 0 0 rgba(94,74,50,0);}}
+@keyframes pulseGold{0%{box-shadow:0 0 0 0 rgba(185,138,62,.6);}70%{box-shadow:0 0 0 14px rgba(185,138,62,0);}100%{box-shadow:0 0 0 0 rgba(185,138,62,0);}}
 .btn-buy::after{content:'';position:absolute;inset:0;border-radius:14px;animation:pulseBuy 2.4s ease-out infinite;pointer-events:none;}
 .btn-buy:hover::after{animation:none;}
 @keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-5px);}40%,80%{transform:translateX(5px);}}
@@ -500,12 +501,22 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
   .brand-name{font-size:16px;}
   /* Garantia menor para nao empurrar preco */
   .guarantee-seal{width:52px;height:52px;}
-  /* Barra de compra sticky mais generosa no mobile */
-  .buy-bar{padding:14px 16px;}
-  .bb-price{font-size:18px;}
-  .btn-bar{padding:12px 18px;font-size:13px;}
+  /* Esconder botao do header no mobile (redundante) */
+  .btn-cta{display:none;}
+  /* Barra de compra sempre visivel no mobile */
+  .buy-bar{transform:translateY(0);padding:12px 14px 20px;}
+  .bb-price{font-size:19px;}
+  .bb-label{font-size:12px;}
+  /* Botao de compra dourado e pulsante — contrasta com fundo marrom */
+  .btn-bar{
+    flex:1;padding:14px 16px;font-size:15px;font-weight:900;
+    background:var(--gold);color:#fff;border-radius:12px;
+    text-align:center;letter-spacing:0.01em;
+    animation:pulseGold 2.2s ease-out infinite;
+  }
+  .btn-bar:hover{animation:none;}
   /* Espaco no final da pagina para barra sticky nao cobrir conteudo */
-  footer{padding-bottom:80px;}
+  footer{padding-bottom:100px;}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;}
