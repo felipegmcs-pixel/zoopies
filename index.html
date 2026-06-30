@@ -609,13 +609,25 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
 
 </style>
 
-  <!-- ========= META PIXEL (cole seu ID abaixo quando for anunciar) =========
+  <!-- Meta Pixel -->
   <script>
-    !function(f,b,e,v,n,t,s){...}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'SEU_META_PIXEL_ID');
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    // LGPD: só envia dados se usuário aceitou o banner
+    if (localStorage.getItem('zoopies_cookie') !== 'accepted') fbq('consent', 'revoke');
+    fbq('init', '1322814256321713');
     fbq('track', 'PageView');
   </script>
-  ========================================================================= -->
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1322814256321713&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel -->
 
   <!-- ========= TIKTOK PIXEL (cole seu ID abaixo quando for anunciar) =========
   <script>
@@ -1430,6 +1442,7 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
     if (typeof gtag !== 'undefined') gtag('consent', 'update', {
       analytics_storage: 'granted', ad_storage: 'granted'
     });
+    if (typeof fbq !== 'undefined') fbq('consent', 'grant');
   }
   function cookieDecline() {
     localStorage.setItem('zoopies_cookie', 'declined');
