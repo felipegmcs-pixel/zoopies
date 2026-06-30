@@ -629,13 +629,13 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
   <div class="nav">
     <a class="logo-wrap" href="/">
       <svg class="logo-svg" id="logoSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 54" role="img" aria-label="Zoopies Cat Crocs">
-        <!-- Paw print -->
-        <g fill="#5E4A32">
-          <ellipse cx="74" cy="16" rx="9" ry="8"/>
-          <ellipse cx="57" cy="8.5" rx="4.5" ry="4"/>
-          <ellipse cx="67" cy="4" rx="5" ry="4"/>
-          <ellipse cx="81" cy="4" rx="5" ry="4"/>
-          <ellipse cx="91" cy="8.5" rx="4.5" ry="4"/>
+        <!-- Paw print (centered at cx=0 for easy JS translation) -->
+        <g id="logoPaw" fill="#5E4A32" visibility="hidden">
+          <ellipse cx="0" cy="16" rx="9" ry="8"/>
+          <ellipse cx="-17" cy="8.5" rx="4.5" ry="4"/>
+          <ellipse cx="-7" cy="4" rx="5" ry="4"/>
+          <ellipse cx="7" cy="4" rx="5" ry="4"/>
+          <ellipse cx="17" cy="8.5" rx="4.5" ry="4"/>
         </g>
         <!-- Text (ears added via JS for pixel-perfect positioning) -->
         <text id="logoText" x="2" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="900" font-size="27" fill="#5E4A32" letter-spacing="2">ZOOPIES</text>
@@ -1381,30 +1381,54 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
 
 
 
-  // Orelhinhas nos O's da logo — posicionamento dinâmico
-  (function positionLogoEars() {
+  // Logo: pata + orelhinhas posicionadas após fonte carregar
+  document.fonts.ready.then(function() {
     var svg = document.getElementById('logoSvg');
     var txt = document.getElementById('logoText');
+    var paw = document.getElementById('logoPaw');
     if (!svg || !txt || !txt.getStartPositionOfChar) return;
     try {
-      [1, 2].forEach(function(i) {
-        var p = txt.getStartPositionOfChar(i);
-        var e = txt.getEndPositionOfChar(i);
-        var top = p.y - 27 * 0.72;
-        var w = e.x - p.x;
-        var earH = 9;
-        [[0.12, 0.44, 0.28], [0.56, 0.88, 0.72]].forEach(function(r) {
-          var poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-          poly.setAttribute('points',
-            (p.x + w*r[0]).toFixed(1) + ',' + top.toFixed(1) + ' ' +
-            (p.x + w*r[1]).toFixed(1) + ',' + top.toFixed(1) + ' ' +
-            (p.x + w*r[2]).toFixed(1) + ',' + (top - earH).toFixed(1));
-          poly.setAttribute('fill', '#5E4A32');
-          svg.appendChild(poly);
-        });
+      // Mede os dois O's em "ZOOPIES" (índices 1 e 2)
+      var s1 = txt.getStartPositionOfChar(1);
+      var e1 = txt.getEndPositionOfChar(1);
+      var s2 = txt.getStartPositionOfChar(2);
+      var e2 = txt.getEndPositionOfChar(2);
+      var baseline = s1.y; // = 50
+      var capTop = baseline - 27 * 0.73; // topo das maiúsculas
+
+      // Centraliza a pata sobre os dois O's
+      if (paw) {
+        var ooCX = (s1.x + e2.x) / 2;
+        // pata desenhada com cx=0, parte de baixo (main pad) em y=24
+        var dy = (capTop - 5) - 24; // 5px acima do topo das letras
+        paw.setAttribute('transform', 'translate(' + ooCX.toFixed(1) + ',' + dy.toFixed(1) + ')');
+        paw.setAttribute('visibility', 'visible');
+      }
+
+      // Orelhinhas: dois triângulos por O, inseridos antes do texto
+      var earH = 8;
+      [[s1.x, e1.x], [s2.x, e2.x]].forEach(function(ox) {
+        var sx = ox[0], ex = ox[1], w = ex - sx;
+        var top = capTop;
+        // orelha esquerda
+        var lp = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        lp.setAttribute('fill', '#5E4A32');
+        lp.setAttribute('points',
+          (sx + w*0.08).toFixed(1)+','+top.toFixed(1)+' '+
+          (sx + w*0.43).toFixed(1)+','+top.toFixed(1)+' '+
+          (sx + w*0.255).toFixed(1)+','+(top - earH).toFixed(1));
+        svg.insertBefore(lp, txt);
+        // orelha direita
+        var rp = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        rp.setAttribute('fill', '#5E4A32');
+        rp.setAttribute('points',
+          (sx + w*0.57).toFixed(1)+','+top.toFixed(1)+' '+
+          (sx + w*0.92).toFixed(1)+','+top.toFixed(1)+' '+
+          (sx + w*0.745).toFixed(1)+','+(top - earH).toFixed(1));
+        svg.insertBefore(rp, txt);
       });
     } catch(err) {}
-  })();
+  });
 
   // Seleciona cor padrão (Preto) ao carregar
   (function initDefaultColor(){
