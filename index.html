@@ -8,7 +8,7 @@
 <meta name="description" content="Zoopies Cat Crocs: o único croc com solado de patinha que deixa pegadinha de gato em cada passo. Compra segura, frete grátis no lançamento, garantia de 30 dias.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&family=Fredoka:wght@600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -76,7 +76,7 @@ header.site{
   padding:8px 24px;gap:14px;
 }
 .logo-wrap{display:flex;align-items:center;gap:10px;}
-.logo-svg{display:block;height:46px;width:auto;}
+.logo-svg{display:block;height:52px;width:auto;}
 .nav-right{display:flex;align-items:center;gap:10px;}
 .nav-trust{
   display:flex;align-items:center;gap:6px;
@@ -628,18 +628,29 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
 <header class="site">
   <div class="nav">
     <a class="logo-wrap" href="/">
-      <svg class="logo-svg" id="logoSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 54" role="img" aria-label="Zoopies Cat Crocs">
-        <!-- Paw print (centered at cx=0 for easy JS translation) -->
+      <svg class="logo-svg" id="logoSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 68" role="img" aria-label="Zoopies Cat Crocs">
+        <!-- Pata (cx=0 para posicionamento via JS translate) -->
         <g id="logoPaw" fill="#5E4A32" visibility="hidden">
-          <ellipse cx="0" cy="16" rx="9" ry="8"/>
-          <ellipse cx="-17" cy="8.5" rx="4.5" ry="4"/>
-          <ellipse cx="-7" cy="4" rx="5" ry="4"/>
-          <ellipse cx="7" cy="4" rx="5" ry="4"/>
-          <ellipse cx="17" cy="8.5" rx="4.5" ry="4"/>
+          <!-- dedo superior esquerdo -->
+          <ellipse cx="-10" cy="3" rx="4.5" ry="3.8"/>
+          <!-- dedo superior centro-esq -->
+          <ellipse cx="-3" cy="0" rx="4.5" ry="3.8"/>
+          <!-- dedo superior centro-dir -->
+          <ellipse cx="4" cy="0" rx="4.5" ry="3.8"/>
+          <!-- dedo superior direito -->
+          <ellipse cx="11" cy="3" rx="4.5" ry="3.8"/>
+          <!-- almofada central -->
+          <ellipse cx="0.5" cy="12" rx="8.5" ry="7.5"/>
         </g>
-        <!-- Text (ears added via JS for pixel-perfect positioning) -->
-        <text id="logoText" x="2" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="900" font-size="27" fill="#5E4A32" letter-spacing="2">ZOOPIES</text>
-        <text x="140" y="41" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="11" fill="#5E4A32">™</text>
+        <!-- Tracinhos decorativos ao lado da pata (via JS) -->
+        <g id="logoPawAccents" fill="none" stroke="#5E4A32" stroke-width="2" stroke-linecap="round" visibility="hidden">
+          <line id="accentL1" x1="0" y1="0" x2="0" y2="0"/>
+          <line id="accentL2" x1="0" y1="0" x2="0" y2="0"/>
+          <line id="accentR1" x1="0" y1="0" x2="0" y2="0"/>
+          <line id="accentR2" x1="0" y1="0" x2="0" y2="0"/>
+        </g>
+        <!-- Texto principal (orelhas inseridas via JS) -->
+        <text id="logoText" x="4" y="62" font-family="'Fredoka',sans-serif" font-weight="600" font-size="54" fill="#5E4A32" letter-spacing="1">ZOOPIES</text>
       </svg>
     </a>
     <div class="nav-right">
@@ -1381,32 +1392,66 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
 
 
 
-  // Logo: pata + orelhinhas posicionadas após fonte carregar
+  // Logo: pata + orelhinhas posicionadas após fonte (Fredoka) carregar
   document.fonts.ready.then(function() {
     var svg = document.getElementById('logoSvg');
     var txt = document.getElementById('logoText');
     var paw = document.getElementById('logoPaw');
+    var accents = document.getElementById('logoPawAccents');
     if (!svg || !txt || !txt.getStartPositionOfChar) return;
     try {
-      // Mede os dois O's em "ZOOPIES" (índices 1 e 2)
+      // Mede os dois O's em "ZOOPIES" (índices 1 e 2: Z=0, O=1, O=2)
       var s1 = txt.getStartPositionOfChar(1);
       var e1 = txt.getEndPositionOfChar(1);
       var s2 = txt.getStartPositionOfChar(2);
       var e2 = txt.getEndPositionOfChar(2);
-      var baseline = s1.y; // = 50
-      var capTop = baseline - 27 * 0.73; // topo das maiúsculas
+      var baseline = s1.y;              // baseline do texto (= 62)
+      var capTop = baseline - 54 * 0.73; // topo das maiúsculas Fredoka
 
-      // Centraliza a pata sobre os dois O's
-      if (paw) {
-        var ooCX = (s1.x + e2.x) / 2;
-        // pata desenhada com cx=0, parte de baixo (main pad) em y=24
-        var dy = (capTop - 5) - 24; // 5px acima do topo das letras
-        paw.setAttribute('transform', 'translate(' + ooCX.toFixed(1) + ',' + dy.toFixed(1) + ')');
-        paw.setAttribute('visibility', 'visible');
-      }
+      // ── Pata: centralizada sobre os dois O's ──
+      var ooCX = (s1.x + e2.x) / 2;
+      // almofada central desenhada em cy=12, base em y≈20
+      var pawBottomY = 20;
+      var gap = 6; // px de espaço entre pata e topo das letras
+      var pawTY = (capTop - gap) - pawBottomY;
+      paw.setAttribute('transform', 'translate(' + ooCX.toFixed(1) + ',' + pawTY.toFixed(1) + ')');
+      paw.setAttribute('visibility', 'visible');
 
-      // Orelhinhas: dois triângulos por O, inseridos antes do texto
-      var earH = 8;
+      // ── Tracinhos decorativos laterais ──
+      var pawCY = pawTY + 6; // centro vertical da pata
+      var pawLeft  = ooCX - 16;
+      var pawRight = ooCX + 16;
+      var dashLen = 7;
+      var dashGap = 5;
+      // esquerda: dois tracinhos diagonais ( \ e / )
+      var aL1 = svg.getElementById ? svg.getElementById('accentL1') : document.getElementById('accentL1');
+      var aL2 = document.getElementById('accentL2');
+      var aR1 = document.getElementById('accentR1');
+      var aR2 = document.getElementById('accentR2');
+      // tracinho superior esquerdo (↘)
+      aL1.setAttribute('x1', (pawLeft - dashGap - dashLen * 0.7).toFixed(1));
+      aL1.setAttribute('y1', (pawCY - 5).toFixed(1));
+      aL1.setAttribute('x2', (pawLeft - dashGap).toFixed(1));
+      aL1.setAttribute('y2', (pawCY + 1).toFixed(1));
+      // tracinho inferior esquerdo (↗)
+      aL2.setAttribute('x1', (pawLeft - dashGap - dashLen * 0.7).toFixed(1));
+      aL2.setAttribute('y1', (pawCY + 4).toFixed(1));
+      aL2.setAttribute('x2', (pawLeft - dashGap).toFixed(1));
+      aL2.setAttribute('y2', (pawCY - 2).toFixed(1));
+      // tracinho superior direito (↙)
+      aR1.setAttribute('x1', (pawRight + dashGap + dashLen * 0.7).toFixed(1));
+      aR1.setAttribute('y1', (pawCY - 5).toFixed(1));
+      aR1.setAttribute('x2', (pawRight + dashGap).toFixed(1));
+      aR1.setAttribute('y2', (pawCY + 1).toFixed(1));
+      // tracinho inferior direito (↖)
+      aR2.setAttribute('x1', (pawRight + dashGap + dashLen * 0.7).toFixed(1));
+      aR2.setAttribute('y1', (pawCY + 4).toFixed(1));
+      aR2.setAttribute('x2', (pawRight + dashGap).toFixed(1));
+      aR2.setAttribute('y2', (pawCY - 2).toFixed(1));
+      accents.setAttribute('visibility', 'visible');
+
+      // ── Orelhinhas: dois triângulos por O ──
+      var earH = Math.round(54 * 0.22); // altura proporcional à fonte
       [[s1.x, e1.x], [s2.x, e2.x]].forEach(function(ox) {
         var sx = ox[0], ex = ox[1], w = ex - sx;
         var top = capTop;
@@ -1414,20 +1459,20 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
         var lp = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         lp.setAttribute('fill', '#5E4A32');
         lp.setAttribute('points',
-          (sx + w*0.08).toFixed(1)+','+top.toFixed(1)+' '+
-          (sx + w*0.43).toFixed(1)+','+top.toFixed(1)+' '+
-          (sx + w*0.255).toFixed(1)+','+(top - earH).toFixed(1));
+          (sx + w*0.10).toFixed(1)+','+top.toFixed(1)+' '+
+          (sx + w*0.42).toFixed(1)+','+top.toFixed(1)+' '+
+          (sx + w*0.26).toFixed(1)+','+(top - earH).toFixed(1));
         svg.insertBefore(lp, txt);
         // orelha direita
         var rp = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         rp.setAttribute('fill', '#5E4A32');
         rp.setAttribute('points',
-          (sx + w*0.57).toFixed(1)+','+top.toFixed(1)+' '+
-          (sx + w*0.92).toFixed(1)+','+top.toFixed(1)+' '+
-          (sx + w*0.745).toFixed(1)+','+(top - earH).toFixed(1));
+          (sx + w*0.58).toFixed(1)+','+top.toFixed(1)+' '+
+          (sx + w*0.90).toFixed(1)+','+top.toFixed(1)+' '+
+          (sx + w*0.74).toFixed(1)+','+(top - earH).toFixed(1));
         svg.insertBefore(rp, txt);
       });
-    } catch(err) {}
+    } catch(err) { console.error('Logo err:', err); }
   });
 
   // Seleciona cor padrão (Preto) ao carregar
