@@ -1439,6 +1439,43 @@ footer{background:var(--ink);color:#9E8B76;padding:50px 0 36px;}
         ab_label: variant.label
       });
     }
+
+    // TikTok: ViewContent com preço da variante
+    var priceNum = parseFloat(variant.price.replace('R$','').replace(',','.'));
+    if (typeof ttq !== 'undefined') {
+      ttq.track('ViewContent', {
+        content_id: 'zoopies-cat-crocs',
+        content_name: 'Zoopies Cat Crocs',
+        content_type: 'product',
+        currency: 'BRL',
+        value: priceNum,
+        price: priceNum
+      });
+    }
+
+    // TikTok + Meta: InitiateCheckout no clique dos botões de compra
+    document.querySelectorAll('a[href*="buy.stripe.com"]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        if (typeof ttq !== 'undefined') {
+          ttq.track('InitiateCheckout', {
+            content_id: 'zoopies-cat-crocs',
+            content_name: 'Zoopies Cat Crocs',
+            currency: 'BRL',
+            value: priceNum,
+            num_items: 1
+          });
+        }
+        if (typeof fbq !== 'undefined') {
+          fbq('track', 'InitiateCheckout', {
+            content_ids: ['zoopies-cat-crocs'],
+            content_name: 'Zoopies Cat Crocs',
+            currency: 'BRL',
+            value: priceNum,
+            num_items: 1
+          });
+        }
+      });
+    });
   })();
 
   // ═══ LGPD COOKIE CONSENT ═══════════════════════════════════════════
