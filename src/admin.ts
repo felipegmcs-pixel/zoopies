@@ -112,11 +112,11 @@ function cleanPhone(p) {
 function buildWaLink(phone, name, code) {
   var wa = cleanPhone(phone);
   var firstName = (name || 'cliente').split(' ')[0];
-  var msg = 'Oi ' + firstName + '! \uD83D\uDC3E\n\n'
-    + 'Seu Zoopies Cat Crocs foi enviado!\n\n'
-    + 'Rastreio: ' + code + '\n'
-    + 'Acompanhe: https://rastreamento.correios.com.br/app/index.php?label=' + code + '\n\n'
-    + 'Qualquer d\u00FAvida \u00E9 s\u00F3 chamar! \uD83D\uDE0A\n'
+  var msg = 'Oi ' + firstName + '! \uD83D\uDC3E\\n\\n'
+    + 'Seu Zoopies Cat Crocs foi enviado!\\n\\n'
+    + 'Rastreio: ' + code + '\\n'
+    + 'Acompanhe: https://rastreamento.correios.com.br/app/index.php?label=' + code + '\\n\\n'
+    + 'Qualquer d\u00FAvida \u00E9 s\u00F3 chamar! \uD83D\uDE0A\\n'
     + '\u2013 Equipe Zoopies';
   return 'https://wa.me/' + wa + '?text=' + encodeURIComponent(msg);
 }
@@ -138,7 +138,7 @@ async function sendTracking(btn) {
     if (phone) {
       window.open(buildWaLink(phone, name, code), '_blank');
     } else {
-      alert('Rastreio salvo!\n\nCliente sem telefone \u2014 copie o c\u00F3digo e envie por email.');
+      alert('Rastreio salvo!\\n\\nCliente sem telefone \u2014 copie o c\u00F3digo e envie por email.');
     }
     loadOrders();
   } catch(e) {
