@@ -1,6 +1,12 @@
 name = "zoopies"
 compatibility_date = "2026-06-29"
+main = "src/index.ts"
 
 [assets]
 directory = "."
 not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "zoopies-orders"
+database_id = "108d4de1-a7d2-4562-bad6-bfd49ffc4bd2"

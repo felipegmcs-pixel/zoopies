@@ -1,0 +1,10 @@
+node_modules/
+.wrangler/
+.claude/
+.git/
+src/
+package.json
+package-lock.json
+tsconfig.json
+wrangler.toml
+schema.sql
